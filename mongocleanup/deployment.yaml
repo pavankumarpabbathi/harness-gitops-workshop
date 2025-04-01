@@ -1,4 +1,3 @@
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -15,14 +14,32 @@ spec:
       labels:
         app: mongo-cleanup
     spec:
+      volumes:
+        - name: mongo-db-cleanup-script
+          configMap:
+             name: db-cleanup-script-configmap
       containers:
           - name: mongo-cleaup
-            image: nginx:latest
-            ports:
-              - containerPort: 80
+            image: mongo:latest
             env:
-              - name: MESSAGE
-                value: hello world
-            command: ["sh", "-c"]
+              - name: MONGODB_USERNAME
+                value: 'pabbathi253'
+              - name: MONGODB_PASSWORD
+                value: 'tSqy2vkh59l8HaOg'
+              - name: MONGODB_URL
+                value: 'dev-cluster.bufynzm.mongodb.net'
+              - name: DB_NAME
+                value: 'blog'  
+            volumeMounts:
+               - name: mongo-db-cleanup-script
+                 mountPath: scripts/
+            command:
+               - "sh"
+               - "-c"
+              # - "sleep infinity"
+            # command:
+            #   - sh   
+            # args:
+            #   - /tmp/mongo-db-cleanup-script.sh
             args:
-              - sleep infinity
+              - "sh -x scripts/mongo-db-cleanup-script.sh; sleep infinity"
