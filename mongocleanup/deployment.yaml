@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Deployment
+metadata:
+  name: mongo-cleanup
+  labels:
+     app: mongo-cleanup
+spec:
+  replicas: 1
+  selector:
+     matchLabels:
+        app: mongo-cleanup
+  template:
+     metadata:
+        labels: 
+          app: mongo-cleanup
+     spec:
+        - name: mongo-cleaup
+          image: nginx:latest
+          ports:
+            - containerPort: 80
+          env:
+            - name: MESSAGE
+              value: "hello world"
+          command: ["/bin/echo"]
+          args: ["$(MESSAGE)"]
+             
