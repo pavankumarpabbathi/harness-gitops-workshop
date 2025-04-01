@@ -1,0 +1,34 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: mongo-db-cleanup
+  labels:
+     app: mongo-db-cleanup
+spec:
+  template:
+    spec:
+      restartPolicy: OnFailure
+      volumes:
+        - name: mongo-db-cleanup-script
+          configMap:
+             name: db-cleanup-script-configmap
+      containers:
+        - name: mongo-cleaup
+          image: mongo:latest
+          env:
+            - name: MONGODB_USERNAME
+              value: 'pabbathi253'
+            - name: MONGODB_PASSWORD
+              value: 'tSqy2vkh59l8HaOg'
+            - name: MONGODB_URL
+              value: 'dev-cluster.bufynzm.mongodb.net'
+            - name: DB_NAME
+              value: 'blog'  
+          volumeMounts:
+             - name: mongo-db-cleanup-script
+               mountPath: scripts/
+          command:
+             - "sh"
+             - "-c"
+          args:
+            - "sh -x scripts/mongo-db-cleanup-script.sh; sleep infinity"
