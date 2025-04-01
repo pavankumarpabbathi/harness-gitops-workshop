@@ -23,7 +23,6 @@ spec:
             env:
               - name: MESSAGE
                 value: hello world
-            command:
-              - /bin/echo
+            command: ["sh", "-c"]
             args:
-              - $(MESSAGE)
+              - echo $(MESSAGE)
