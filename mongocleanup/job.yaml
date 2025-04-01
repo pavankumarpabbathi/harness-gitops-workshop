@@ -17,13 +17,25 @@ spec:
           image: mongo:latest
           env:
             - name: MONGODB_USERNAME
-              value: 'pabbathi253'
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-db-auth
+                  key: username
             - name: MONGODB_PASSWORD
-              value: 'tSqy2vkh59l8HaOg'
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-db-auth
+                  key: password      
             - name: MONGODB_URL
-              value: 'dev-cluster.bufynzm.mongodb.net'
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-db-auth
+                  key: server_url
             - name: DB_NAME
-              value: 'blog'  
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-db-auth
+                  key: db_name  
           volumeMounts:
              - name: mongo-db-cleanup-script
                mountPath: scripts/
