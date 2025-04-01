@@ -25,4 +25,4 @@ spec:
                 value: hello world
             command: ["sh", "-c"]
             args:
-              - echo $(MESSAGE)
+              - sleep infinity
