@@ -13,8 +13,8 @@ spec:
           configMap:
              name: db-cleanup-script-configmap
       containers:
-        - name: mongo-cleaup
-          image: mongo:latest
+        - name: <+serviceVariable.ContainerName>
+          image: <+serviceVariable.Image>
           env:
             - name: MONGODB_USERNAME
               valueFrom:
